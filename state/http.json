@@ -21,6 +21,7 @@
   "https://guvernanta.gov.ro/cv-uri.html": {
     "sha256": "3705d09d3298960b74a17912d58ee81f9ba95088f60cc831c72ec1a36893251b",
     "etags": [
+      "W/\"6ab3f28e-99d\"",
       "W/\"6ab3f295-99d\""
     ]
   },
@@ -33,7 +34,8 @@
   "https://guvernanta.gov.ro/mai-multe-ca.html": {
     "sha256": "2bafdb232b81126fa3f8f21868b9decf420bd499460d9457c5280daf12aedcdd",
     "etags": [
-      "W/\"6ab3e2e7-9cd\""
+      "W/\"6ab3e2e7-9cd\"",
+      "W/\"6ab3e307-9cd\""
     ]
   },
   "https://guvernanta.gov.ro/people-data.js": {
