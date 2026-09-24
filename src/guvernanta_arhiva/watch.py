@@ -100,16 +100,16 @@ def _witness_line(e: Json) -> str:
     if wayback.get("capture"):
         matches = wayback.get("capture_matches")
         verdict = (
-            "conținut identic"
+            "content identical"
             if matches is True
-            else "CONȚINUT DIFERIT"
+            else "CONTENT DIFFERS"
             if matches is False
-            else "conținut neverificat"
+            else "content not compared"
         )
-        return f"copie Wayback: {wayback['capture']} ({verdict})"
+        return f"Wayback copy: {wayback['capture']} ({verdict})"
     if wayback.get("skipped"):
-        return f"fără copie Wayback ({wayback.get('reason', 'omisă')})"
-    return f"copia Wayback a eșuat ({wayback.get('error', 'motiv necunoscut')})"
+        return f"no Wayback copy ({wayback.get('reason', 'skipped')})"
+    return f"Wayback copy failed ({wayback.get('error', 'unknown reason')})"
 
 
 @dataclass(slots=True)
@@ -123,16 +123,16 @@ class RunReport:
 
     def commit_message(self) -> str:
         if not self.new_versions and not self.witnessed:
-            return f"Verificare zilnică: nicio modificare pe guvernanta.gov.ro ({self.started_at})"
+            return f"Daily check: no change on guvernanta.gov.ro ({self.started_at})"
         titles: list[str] = []
         if self.new_versions:
-            titles.append("Versiune nouă: " + ", ".join(str(e["path"]) for e in self.new_versions))
+            titles.append("New version: " + ", ".join(str(e["path"]) for e in self.new_versions))
         if self.witnessed:
-            titles.append("Copie Wayback: " + ", ".join(str(e["path"]) for e in self.witnessed))
+            titles.append("Wayback copy: " + ", ".join(str(e["path"]) for e in self.witnessed))
         lines = ["; ".join(titles), ""]
         for e in self.new_versions:
             lines.append(
-                f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observată la {e['observed_at']}; "
+                f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observed {e['observed_at']}; "
                 f"{_witness_line(e)}"
             )
         lines.extend(f"- {e['path']} (sha256 {e['sha256']}): {_witness_line(e)}" for e in self.witnessed)
@@ -166,7 +166,7 @@ def run(
     def testify(url: str, sha: str) -> Json:
         nonlocal witness_spent
         if witness_spent >= WITNESS_BUDGET:
-            return {"skipped": True, "reason": "s-a depășit timpul alocat copiilor Wayback"}
+            return {"skipped": True, "reason": "Wayback time budget exhausted"}
         began = now()
         testimony = witness(url)
         witness_spent += now() - began

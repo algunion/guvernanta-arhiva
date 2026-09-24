@@ -28,11 +28,11 @@ def _watch(args: argparse.Namespace) -> int:
     with _client(60.0) as site, _client(60.0) as wayback:
         witness: Witness
         if args.no_witness:
-            witness = skipped_witness("copii Wayback dezactivate la rulare")
+            witness = skipped_witness("Wayback copies disabled for this run")
         elif access and secret:
             witness = wayback_witness(wayback, access, secret, sleep=time.sleep)
         else:
-            witness = skipped_witness("lipsesc cheile archive.org")
+            witness = skipped_witness("archive.org keys missing")
         report = run(
             archive,
             site,
