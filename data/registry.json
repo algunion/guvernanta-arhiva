@@ -8223,10 +8223,10 @@
         "to": null
       },
       "metrics": {
-        "members": 7,
-        "local_cvs": 7,
+        "members": 6,
+        "local_cvs": 6,
         "public_cvs": 0,
-        "compensation_records": 7
+        "compensation_records": 6
       },
       "assets": {
         "folder": "33134190",
@@ -8260,11 +8260,6 @@
           {
             "name": "CV_Adrian_George_Foghis.pdf",
             "url": "CUI_Documente_Companii_Stat/33134190/CV_Adrian_George_Foghis.pdf",
-            "type": "pdf"
-          },
-          {
-            "name": "CV_Andrei_Badiu_Redacted.pdf",
-            "url": "CUI_Documente_Companii_Stat/33134190/CV_Andrei_Badiu_Redacted.pdf",
             "type": "pdf"
           },
           {
@@ -36533,12 +36528,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 68388.0,
+        "gross_ron": 35289.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "68388.0",
+          "gross": "35289.0",
           "net": null
         },
         "source_note": null
@@ -36575,12 +36570,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": null,
+        "gross_ron": 35289.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": null,
+          "gross": 35289.0,
           "net": null
         },
         "source_note": null
@@ -40021,48 +40016,6 @@
       "mandate_contracts": []
     },
     {
-      "id": "appt_e9ea65246b0730da0e",
-      "institution_id": "inst_cui-33134190_48dce39405",
-      "person_id": "person_andrei-badiu_608eff3edc",
-      "role": {
-        "label": "Membru în Consiliul de Supraveghere Provizoriu",
-        "category": "board_member"
-      },
-      "cv": {
-        "public_url": null,
-        "local_reference": null,
-        "local_file": "CV_Andrei_Badiu_Redacted.pdf",
-        "local_url": "CUI_Documente_Companii_Stat/33134190/CV_Andrei_Badiu_Redacted.pdf",
-        "match": {
-          "method": "cui_folder_filename",
-          "confidence": "high"
-        },
-        "company_folder_matches": [
-          {
-            "name": "CV_Andrei_Badiu_Redacted.pdf",
-            "url": "CUI_Documente_Companii_Stat/33134190/CV_Andrei_Badiu_Redacted.pdf",
-            "type": "pdf"
-          }
-        ]
-      },
-      "political_affiliation": "PNL",
-      "compensation": {
-        "gross_ron": 23359.0,
-        "net_ron": null,
-        "net_eur": null,
-        "period": null,
-        "raw_source": {
-          "gross": "23359.0",
-          "net": null
-        },
-        "source_note": null
-      },
-      "mandate_contract": null,
-      "mandate_end_date": "2026-09-17",
-      "notes": "Mandat până la 2026-09-17",
-      "mandate_contracts": []
-    },
-    {
       "id": "appt_a7feff6a2ebcd5bffc",
       "institution_id": "inst_cui-33134190_48dce39405",
       "person_id": "person_adrian-foghis-george_b183b7fbc7",
@@ -40089,12 +40042,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 45356.0,
+        "gross_ron": 33867.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "45356.0",
+          "gross": "33867.0",
           "net": null
         },
         "source_note": null
@@ -40131,12 +40084,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 45356.0,
+        "gross_ron": 33867.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "45356.0",
+          "gross": "33867.0",
           "net": null
         },
         "source_note": null
@@ -40173,12 +40126,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 45356.0,
+        "gross_ron": 33867.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "45356.0",
+          "gross": "33867.0",
           "net": null
         },
         "source_note": null
@@ -40215,12 +40168,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 45356.0,
+        "gross_ron": 33867.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "45356.0",
+          "gross": "33867.0",
           "net": null
         },
         "source_note": null
