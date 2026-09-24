@@ -169,3 +169,10 @@ def test_record_imports_an_external_capture_with_provenance(env: Env, tmp_path: 
     (entry,) = env.archive.entries()
     assert entry["source"] == "wayback" and entry["sha256"] == sha256_hex(registry())
     assert env.archive.verify() == 1
+
+
+def test_every_default_target_accepts_its_real_minimum_size() -> None:
+    from guvernanta_arhiva.watch import TARGETS
+
+    robots = next(t for t in TARGETS if t.store_path == "site/robots.txt")
+    assert robots.min_bytes <= 52  # the live robots.txt is 52 bytes

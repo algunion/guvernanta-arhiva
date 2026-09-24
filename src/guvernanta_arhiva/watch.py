@@ -42,7 +42,9 @@ class Target:
 
 def _site(name: str) -> Target:
     kind: Kind = "html" if name.endswith(".html") else "js" if name.endswith(".js") else "css"
-    return Target(name, f"site/{name}", "text" if name.endswith(".txt") else kind)
+    if name.endswith(".txt"):
+        return Target(name, f"site/{name}", "text", min_bytes=16)  # robots.txt is ~50 B
+    return Target(name, f"site/{name}", kind)
 
 
 TARGETS: Final[tuple[Target, ...]] = (
@@ -106,7 +108,9 @@ class RunReport:
         lines = [f"Versiune nouă: {paths}", ""]
         for e in self.new_versions:
             wayback = cast(Json, e["wayback"])
-            witness = wayback.get("capture") or "martor Wayback indisponibil"
+            witness = wayback.get("capture") or (
+                "fără martor Wayback (omis)" if wayback.get("skipped") else "martor Wayback indisponibil"
+            )
             lines.append(
                 f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observat {e['observed_at']}; "
                 f"{witness}"
