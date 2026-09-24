@@ -1,0 +1,49 @@
+name: watch
+
+on:
+  schedule:
+    - cron: "7,37 * * * *" # every 30 minutes, away from the top of the hour
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: watch # single writer: the log is append-only
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+
+      - name: Verify the evidence chain before touching it
+        run: uv run --locked python -m guvernanta_arhiva verify
+
+      - name: Poll guvernanta.gov.ro
+        run: >-
+          uv run --locked python -m guvernanta_arhiva watch
+          --commit-message-file "$RUNNER_TEMP/message.txt"
+          --errors-file "$RUNNER_TEMP/errors.txt"
+
+      - name: Commit new evidence
+        run: |
+          git add data site log state status
+          if git diff --cached --quiet; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -F "$RUNNER_TEMP/message.txt"
+          git push
+
+      - name: Fail loudly if the site answered badly
+        run: |
+          if [ -s "$RUNNER_TEMP/errors.txt" ]; then
+            cat "$RUNNER_TEMP/errors.txt"
+            exit 1
+          fi
