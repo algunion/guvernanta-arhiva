@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import sys
 import time
 from datetime import UTC, datetime
@@ -10,7 +11,7 @@ from pathlib import Path
 import httpx
 
 from guvernanta_arhiva.archive import Archive, IntegrityError, Json, as_object, parse_utc, sha256_hex
-from guvernanta_arhiva.watch import USER_AGENT, run, wayback_witness
+from guvernanta_arhiva.watch import USER_AGENT, Witness, run, skipped_witness, wayback_witness
 
 
 def _client(timeout_s: float) -> httpx.Client:
@@ -23,14 +24,16 @@ def _client(timeout_s: float) -> httpx.Client:
 
 def _watch(args: argparse.Namespace) -> int:
     archive = Archive(args.root)
-    with _client(60.0) as site, _client(180.0) as wayback:
-        report = run(
-            archive,
-            site,
-            now=lambda: datetime.now(UTC),
-            sleep=time.sleep,
-            witness=None if args.no_witness else wayback_witness(wayback),
-        )
+    access, secret = os.environ.get("IA_S3_ACCESS"), os.environ.get("IA_S3_SECRET")
+    with _client(60.0) as site, _client(60.0) as wayback:
+        witness: Witness
+        if args.no_witness:
+            witness = skipped_witness("dezactivat la rulare")
+        elif access and secret:
+            witness = wayback_witness(wayback, access, secret, sleep=time.sleep)
+        else:
+            witness = skipped_witness("lipsesc cheile archive.org")
+        report = run(archive, site, now=lambda: datetime.now(UTC), sleep=time.sleep, witness=witness)
     for entry in report.new_versions:
         print(f"NEW {entry['path']} sha256={entry['sha256']} wayback={entry['wayback']}")
     for note in report.unconfirmed:

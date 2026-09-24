@@ -15,6 +15,8 @@ BASE_URL: Final = "https://guvernanta.gov.ro/"
 USER_AGENT: Final = "guvernanta-arhiva/0.1 (+https://github.com/algunion/guvernanta-arhiva)"
 CONFIRM_DELAY_S: Final = 8.0
 HEARTBEAT_EVERY: Final = timedelta(hours=23)  # one "still watching" commit per day, cron jitter tolerated
+WITNESS_BUDGET: Final = timedelta(minutes=8)  # keeps a burst of new versions inside the job timeout
+SPN_ENDPOINT: Final = "https://web.archive.org/save"
 
 type Kind = Literal["json", "html", "js", "css", "text"]
 type Witness = Callable[[str], Json]
@@ -108,9 +110,12 @@ class RunReport:
         lines = [f"Versiune nouă: {paths}", ""]
         for e in self.new_versions:
             wayback = cast(Json, e["wayback"])
-            witness = wayback.get("capture") or (
-                "fără martor Wayback (omis)" if wayback.get("skipped") else "martor Wayback indisponibil"
-            )
+            if wayback.get("capture"):
+                witness = f"martor Wayback: {wayback['capture']}"
+            elif wayback.get("skipped"):
+                witness = f"fără martor Wayback ({wayback.get('reason', 'omis')})"
+            else:
+                witness = f"martor Wayback eșuat ({wayback.get('error', 'necunoscut')})"
             lines.append(
                 f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observat {e['observed_at']}; "
                 f"{witness}"
@@ -129,12 +134,13 @@ def run(
     *,
     now: Callable[[], datetime],
     sleep: Callable[[float], None],
-    witness: Witness | None,
+    witness: Witness,
     targets: Sequence[Target] = TARGETS,
 ) -> RunReport:
     """One polling pass. Stores a version only after a second download confirms it."""
     report = RunReport(started_at=utc_iso(now()))
     state = archive.read_state()
+    witness_spent = timedelta()
     for t in targets:
         stored = archive.stored_sha(t.store_path)
         known = state.get(t.url)
@@ -176,6 +182,13 @@ def run(
             _, old_facts = facts_about(t, previous, _EXPECTED_TYPE[t.kind])
             facts["schema_changed"] = old_facts.get("schema_version") != facts["schema_version"]
         archive.store(t.store_path, first.content)
+        confirmed_at = utc_iso(now())
+        if witness_spent >= WITNESS_BUDGET:
+            testimony: Json = {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
+        else:
+            began = now()
+            testimony = witness(t.url)
+            witness_spent += now() - began
         entry = archive.append(
             {
                 "event": "first_capture" if stored is None else "new_version",
@@ -186,14 +199,14 @@ def run(
                 "bytes": len(first.content),
                 "previous_sha256": stored,
                 "observed_at": fetched_at,
-                "confirmed_at": utc_iso(now()),
+                "confirmed_at": confirmed_at,
                 "http": {
                     "etag": etag,
                     "last_modified": first.headers.get("last-modified"),
                     "confirm_etag": second.headers.get("etag"),
                 },
                 "facts": facts,
-                "wayback": witness(t.url) if witness is not None else {"skipped": True},
+                "wayback": testimony,
             }
         )
         tags = {x for x in (etag, second.headers.get("etag")) if x}
@@ -216,20 +229,54 @@ def run(
     return report
 
 
-def wayback_witness(client: httpx.Client) -> Witness:
-    """Ask the Wayback Machine for an independent capture; never raises."""
+def skipped_witness(reason: str) -> Witness:
+    """A witness that records why no external capture was requested."""
+
+    def skip(_url: str) -> Json:
+        return {"skipped": True, "reason": reason}
+
+    return skip
+
+
+def _json_object(response: httpx.Response) -> Json:
+    try:
+        value: object = response.json()
+    except ValueError:
+        return {}
+    return cast(Json, value) if isinstance(value, dict) else {}
+
+
+def wayback_witness(
+    client: httpx.Client,
+    access_key: str,
+    secret: str,
+    *,
+    sleep: Callable[[float], None],
+    polls: int = 24,
+) -> Witness:
+    """Save Page Now 2 (requires archive.org S3 keys): submit, then poll the job. Never raises."""
+    headers = {"Accept": "application/json", "Authorization": f"LOW {access_key}:{secret}"}
 
     def save(url: str) -> Json:
         try:
-            r = client.get(f"https://web.archive.org/save/{url}")
+            submitted = client.post(SPN_ENDPOINT, data={"url": url}, headers=headers)
+            job = _json_object(submitted)
+            job_id = job.get("job_id")
+            if not isinstance(job_id, str):
+                reason = job.get("message") or f"HTTP {submitted.status_code}"
+                return {"ok": False, "error": str(reason)}
+            for _ in range(polls):
+                sleep(5.0)
+                status = _json_object(client.get(f"{SPN_ENDPOINT}/status/{job_id}", headers=headers))
+                if status.get("status") == "success":
+                    original = status.get("original_url") or url
+                    capture = f"https://web.archive.org/web/{status.get('timestamp')}/{original}"
+                    return {"ok": True, "job_id": job_id, "capture": capture}
+                if status.get("status") == "error":
+                    detail = status.get("message") or status.get("status_ext") or "error"
+                    return {"ok": False, "job_id": job_id, "error": str(detail)}
+            return {"ok": False, "job_id": job_id, "error": "capture not finished in time"}
         except httpx.HTTPError as exc:
             return {"ok": False, "error": type(exc).__name__}
-        location = r.headers.get("content-location") or r.headers.get("location")
-        capture = urljoin("https://web.archive.org", location) if location else None
-        return {
-            "ok": r.status_code < 400 and capture is not None,
-            "status": r.status_code,
-            "capture": capture,
-        }
 
     return save

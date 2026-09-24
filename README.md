@@ -14,7 +14,7 @@ La fiecare 30 de minute, un job GitHub Actions ([`watch.yml`](.github/workflows/
 2. când conținutul s-a schimbat, **confirmă schimbarea cu o a doua descărcare**, pentru că site-ul rulează pe cel puțin două servere care se pot desincroniza;
 3. salvează **octeții exacți** în `data/` și `site/`, iar istoricul git devine arhiva;
 4. adaugă o intrare în [`log/observations.jsonl`](log/observations.jsonl), un jurnal **înlănțuit criptografic**: fiecare intrare conține hash-ul celei anterioare, deci orice modificare ulterioară se detectează;
-5. cere **Wayback Machine** o captură independentă a noii versiuni, ca martor extern;
+5. cere **Wayback Machine** o captură independentă a noii versiuni, ca martor extern. Serviciul Save Page Now cere un cont archive.org; cheile se configurează ca secrete ale depozitului (`IA_S3_ACCESS`, `IA_S3_SECRET`). Fără ele, fiecare intrare din jurnal notează că martorul lipsește și de ce;
 6. o dată pe zi scrie un „semn de viață” (`status/heartbeat.json`), ca să se vadă că verificarea a continuat și când nu s-a schimbat nimic.
 
 ## Cum verifici

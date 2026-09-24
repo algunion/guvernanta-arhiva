@@ -9,8 +9,8 @@ import httpx
 import pytest
 
 from guvernanta_arhiva.__main__ import main
-from guvernanta_arhiva.archive import HEARTBEAT_PATH, LOG_PATH, Archive, IntegrityError, sha256_hex
-from guvernanta_arhiva.watch import RunReport, Target, run
+from guvernanta_arhiva.archive import HEARTBEAT_PATH, LOG_PATH, Archive, IntegrityError, Json, sha256_hex
+from guvernanta_arhiva.watch import RunReport, Target, run, wayback_witness
 
 URL = "https://guvernanta.gov.ro/data/registry.json"
 TARGETS = (Target("data/registry.json", "data/registry.json", "json", min_bytes=10),)
@@ -35,12 +35,12 @@ class Env:
     def respond(self, *responses: httpx.Response) -> None:
         self.queue = list(responses)
 
-    def _handler(self, request: httpx.Request) -> httpx.Response:
+    def handler(self, request: httpx.Request) -> httpx.Response:
         self.seen.append(request)
         return self.queue.pop(0) if len(self.queue) > 1 else self.queue[0]
 
     def poll(self) -> RunReport:
-        with httpx.Client(transport=httpx.MockTransport(self._handler)) as client:
+        with httpx.Client(transport=httpx.MockTransport(self.handler)) as client:
             return run(
                 self.archive,
                 client,
@@ -176,3 +176,53 @@ def test_every_default_target_accepts_its_real_minimum_size() -> None:
 
     robots = next(t for t in TARGETS if t.store_path == "site/robots.txt")
     assert robots.min_bytes <= 52  # the live robots.txt is 52 bytes
+
+
+def _spn(*responses: httpx.Response) -> tuple[httpx.Client, list[httpx.Request]]:
+    seen: list[httpx.Request] = []
+    queue = list(responses)
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return queue.pop(0)
+
+    return httpx.Client(transport=httpx.MockTransport(handler)), seen
+
+
+def test_spn2_capture_is_recorded_with_its_wayback_url() -> None:
+    client, seen = _spn(
+        httpx.Response(200, json={"url": URL, "job_id": "spn2-abc"}),
+        httpx.Response(200, json={"status": "pending"}),
+        httpx.Response(200, json={"status": "success", "timestamp": "20260925081500", "original_url": URL}),
+    )
+    save = wayback_witness(client, "key", "secret", sleep=lambda _s: None)
+    assert save(URL) == {
+        "ok": True,
+        "job_id": "spn2-abc",
+        "capture": f"https://web.archive.org/web/20260925081500/{URL}",
+    }
+    assert seen[0].headers["authorization"] == "LOW key:secret"
+
+
+def test_spn2_refusal_is_recorded_not_raised() -> None:
+    refusal = {"message": "You need to be logged in to use Save Page Now."}
+    client, _ = _spn(httpx.Response(401, json=refusal))
+    save = wayback_witness(client, "k", "s", sleep=lambda _s: None)
+    assert save(URL) == {"ok": False, "error": refusal["message"]}
+
+
+def test_slow_witness_is_skipped_with_a_reason_instead_of_timing_out(env: Env) -> None:
+    two = (Target("a.json", "data/a.json", "json", 10), Target("b.json", "data/b.json", "json", 10))
+    env.respond(ok(registry()), ok(registry()), ok(registry(n=2)), ok(registry(n=2)))
+
+    def slow_witness(url: str) -> Json:
+        env.now += timedelta(minutes=9)
+        return {"ok": True, "capture": f"wb:{url}"}
+
+    with httpx.Client(transport=httpx.MockTransport(env.handler)) as client:
+        report = run(
+            env.archive, client, now=lambda: env.now, sleep=lambda _s: None, witness=slow_witness, targets=two
+        )
+    first, second = report.new_versions
+    assert first["wayback"] == {"ok": True, "capture": "wb:https://guvernanta.gov.ro/a.json"}
+    assert second["wayback"] == {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}

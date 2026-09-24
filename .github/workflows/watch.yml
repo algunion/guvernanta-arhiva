@@ -24,6 +24,11 @@ jobs:
         run: uv run --locked python -m guvernanta_arhiva verify
 
       - name: Poll guvernanta.gov.ro
+        env:
+          # archive.org S3 keys (https://archive.org/account/s3.php) enable the Wayback witness;
+          # without them each observation records why no external capture was requested.
+          IA_S3_ACCESS: ${{ secrets.IA_S3_ACCESS }}
+          IA_S3_SECRET: ${{ secrets.IA_S3_SECRET }}
         run: >-
           uv run --locked python -m guvernanta_arhiva watch
           --commit-message-file "$RUNNER_TEMP/message.txt"
