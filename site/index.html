@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Registru vizual al companiilor publice, persoanelor din conducere, CV-urilor și veniturilor." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ro_RO" />
+  <meta property="og:title" content="guvernanta.gov.ro — Guvernanța companiilor de stat" />
+  <meta property="og:description" content="Companii de stat, persoane cu funcții de conducere, CV-uri și venituri declarate." />
+  <meta property="og:url" content="/" />
+  <title>guvernanta.gov.ro</title><link rel="icon" type="image/png" sizes="150x150" href="/logo-GR-black-150x150.png?v=1"><link rel="apple-touch-icon" href="/logo-GR-black-150x150.png?v=1">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Dataset","name":"Registrul companiilor de stat din România","description":"Companii de stat, persoane cu funcții de conducere, CV-uri și venituri declarate.","url":"/","inLanguage":"ro","creator":{"@type":"Organization","name":"guvernanta.gov.ro"},"distribution":{"@type":"DataDownload","encodingFormat":"application/json","contentUrl":"/data/registry.json"}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260922-1" />
+</head>
+<body>
+  <main class="shell">
+    <section class="content">
+      <header class="page-head">
+        <div>
+          <a class="government-brand" href="./" aria-label="Prima pagină — Guvernul României">
+            <img src="logo-GR-black-150x150.png" alt="Sigla Guvernului României" width="150" height="150" />
+            <p class="kicker">Guvernul României</p>
+          </a>
+          <h1><a id="pageTitle" class="site-title-link" href="./">guvernanta.gov.ro</a></h1>
+        </div>
+        <div class="toolbar">
+          <span id="resultCount" class="result-count" hidden>Se încarcă…</span>
+          <div class="tabs registry-tabs" aria-label="Explorează registrul">
+            <button class="tab active" type="button" data-tab="institutions">Companii</button>
+            <button class="tab" type="button" data-tab="people">Persoane</button>
+            <a class="tab-link" href="politic.html">Partid</a>
+            <a class="tab-link" href="top-companii.html">Top companii</a>
+          </div>
+        </div>
+      </header>
+
+      <section id="statsStrip" class="stats-strip" aria-label="Rezumat registru">
+        <a class="stat-link" href="top-companii.html"><strong id="statInstitutions">-</strong><span>companii</span><i>↗</i></a>
+        <a class="stat-link" href="?tab=people" hidden><strong id="statPeople">-</strong><span>persoane cu funcții de conducere</span><i>↗</i></a>
+        <a class="stat-link" href="cv-uri.html"><strong id="statCvs">-</strong><span>CV-uri</span><i>↗</i></a>
+        <a class="stat-link" href="venituri.html"><strong id="statIncome">-</strong><span>indemnizații comunicate transparent</span><i>↗</i></a>
+        <a class="stat-link" id="statMultiBoardsCard" href="mai-multe-ca.html" hidden><strong id="statMultiBoards">-</strong><span>persoane cumul de funcții</span><i>↗</i></a>
+      </section>
+
+      <div class="registry-controls-row">
+        <section class="registry-search-panel" aria-label="Căutare în registru">
+          <label class="search-box registry-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Caută companie sau persoană" autocomplete="off" />
+          </label>
+        </section>
+
+        <div class="registry-sort-row">
+          <select id="sortSelect" aria-label="Sortează rezultatele">
+            <option value="multi_boards">Cumul de funcții</option>
+            <option value="gross">Venitul brut cel mai mare</option>
+            <option value="az">Denumire A-Z</option>
+            <option value="za">Denumire Z-A</option>
+          </select>
+        </div>
+
+        <div class="registry-authority-control">
+          <select id="authoritySelect" aria-label="Filtrează după autoritatea tutelară"></select>
+        </div>
+
+        <button id="resetFilters" class="registry-reset" type="button" aria-label="Resetează toate filtrele" title="Resetează toate filtrele">×</button>
+      </div>
+
+      <div hidden>
+        <div id="coverageList" class="filter-list compact"></div>
+      </div>
+
+      <section class="open-data" hidden>
+        <h2>Date deschise</h2>
+        <p>Datele sunt publicate în conformitate cu OUG nr. 109/2011, Capitolul V, Articolul 51, care prevede obligația de transparență pentru companiile cu capital de stat.</p>
+        <div class="open-actions">
+          <button id="downloadCsv" class="primary" type="button">Descarcă CSV</button>
+        </div>
+      </section>
+
+      <div id="resultsGrid" class="results-grid" aria-live="polite"></div>
+      <button id="loadMore" class="load-more" type="button">Arată mai multe</button>
+    </section>
+    <footer class="site-footer">
+      <p>Copyright © Guvernul României 2026 - Data ultimei actualizări: 24 septembrie 2026.</p>
+      <nav aria-label="Informații legale">
+        <a href="https://gov.ro/ro/conditii-de-utilizare">Condiții de utilizare</a>
+        <a href="https://gov.ro/ro/conditii-legale">Condiții legale</a>
+      </nav>
+    </footer>
+  </main>
+
+  <dialog id="institutionDialog" aria-labelledby="dialogTitle">
+    <button class="dialog-close" id="dialogClose" aria-label="Închide">×</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <dialog id="documentDialog" class="document-dialog" aria-labelledby="documentDialogTitle">
+    <header class="document-dialog-head">
+      <div><p class="kicker">Vizualizare document</p><h2 id="documentDialogTitle">Document</h2></div>
+      <button class="document-dialog-close" id="documentDialogClose" type="button" aria-label="Închide documentul">×</button>
+    </header>
+    <section id="pdfViewer" class="pdf-viewer" aria-label="Vizualizator PDF" hidden>
+      <nav class="pdf-toolbar" aria-label="Navigare în document">
+        <button id="pdfPrevious" type="button" aria-label="Pagina precedentă">‹</button>
+        <span class="pdf-page-status">Pagina <strong id="pdfPageNumber">1</strong> din <strong id="pdfPageCount">–</strong></span>
+        <button id="pdfNext" type="button" aria-label="Pagina următoare">›</button>
+        <span class="pdf-toolbar-spacer"></span>
+        <a id="pdfDownload" class="pdf-download" href="#" download aria-label="Descarcă documentul">Descarcă <span aria-hidden="true">↓</span></a>
+        <button id="pdfZoomOut" type="button" aria-label="Micșorează">−</button>
+        <button id="pdfZoomIn" type="button" aria-label="Mărește">+</button>
+      </nav>
+      <div id="pdfViewport" class="pdf-viewport">
+        <p id="pdfLoading" class="pdf-message" role="status">Se încarcă documentul…</p>
+        <canvas id="pdfCanvas" aria-label="Pagina PDF curentă" hidden></canvas>
+        <div id="pdfError" class="pdf-message pdf-error" role="alert" hidden>
+          <strong>Documentul nu a putut fi afișat.</strong>
+          <a id="pdfFallbackLink" href="#" target="_blank" rel="noopener">Deschide documentul direct</a>
+        </div>
+      </div>
+    </section>
+    <iframe id="documentFrame" class="document-frame" title="Vizualizare document" hidden></iframe>
+  </dialog>
+
+  <script src="app.js?v=20260924-1" defer></script>
+<script src="cookie-consent.js?v=20260923-2"></script></body>
+</html>

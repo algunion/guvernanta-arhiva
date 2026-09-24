@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Clasamentul companiilor publice după cifra de afaceri, rezultat net și capitaluri proprii." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="/top-companii.html" />
+  <title>guvernanta.gov.ro</title><link rel="icon" type="image/png" sizes="150x150" href="/logo-GR-black-150x150.png?v=1"><link rel="apple-touch-icon" href="/logo-GR-black-150x150.png?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260918-1" />
+</head>
+<body>
+  <main class="analysis-shell top-shell">
+    <header class="analysis-head top-head">
+      <div><a class="government-brand" href="./" aria-label="Prima pagină — Guvernul României"><img src="logo-GR-black-150x150.png" alt="Sigla Guvernului României" width="150" height="150"><p class="kicker">Guvernul României</p></a><h1><a class="site-title-link" href="./">guvernanta.gov.ro</a></h1></div>
+      <nav class="tabs registry-tabs page-navigation" aria-label="Explorează registrul">
+        <a class="tab-link" href="./">Companii</a>
+        <a class="tab-link" href="./?tab=people">Persoane</a>
+        <a class="tab-link" href="politic.html">Partid</a>
+        <a class="tab-link active" href="top-companii.html" aria-current="page">Top companii</a>
+      </nav>
+    </header>
+    <section id="topStats" class="top-stats" aria-label="Indicatori financiari"></section>
+    <section><p class="kicker">Liderii clasamentului</p><div id="topPodium" class="top-podium"></div></section>
+    <section class="top-table-section">
+      <div class="table-head top-table-head"><div><p class="kicker">Clasament complet</p><h2>Companii</h2></div><div class="top-controls"><input id="topSearch" type="search" placeholder="Caută companie sau autoritate…"><select id="topStatus"><option value="">Orice rezultat</option><option value="profit">Cu profit</option><option value="loss">Cu pierdere</option><option value="linked">Cu fișă în registru</option></select></div></div>
+      <div class="top-table-scroll"><table class="top-table"><thead><tr><th>#</th><th><button data-top-sort="name">Companie <span>↕</span></button></th><th><button data-top-sort="turnover" class="active">Cifră de afaceri <span>↓</span></button></th><th><button data-top-sort="net">Rezultat net <span>↕</span></button></th><th><button data-top-sort="change">Evoluție <span>↕</span></button></th><th><button data-top-sort="equity">Capitaluri proprii <span>↕</span></button></th><th><button data-top-sort="functions">Funcții <span>↕</span></button></th><th>Date Atlas</th></tr></thead><tbody id="topRows"></tbody></table></div>
+      <p id="topEmpty" class="empty-state" hidden>Nicio companie nu corespunde filtrelor.</p>
+      <button id="topMore" class="load-more" type="button">Arată mai multe</button>
+    </section>
+    <footer class="site-footer">
+      <p>Copyright © Guvernul României 2026</p>
+      <nav aria-label="Informații legale"><a href="https://gov.ro/ro/conditii-de-utilizare">Condiții de utilizare</a><a href="https://gov.ro/ro/conditii-legale">Condiții legale</a></nav>
+    </footer>
+  </main>
+  <script src="top-companii.js?v=20260922-2" defer></script>
+<script src="cookie-consent.js?v=20260923-2"></script></body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Analiza apartenenței politice a persoanelor din conducerea companiilor publice." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="/politic.html" />
+  <title>guvernanta.gov.ro</title><link rel="icon" type="image/png" sizes="150x150" href="/logo-GR-black-150x150.png?v=1"><link rel="apple-touch-icon" href="/logo-GR-black-150x150.png?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260918-1" />
+</head>
+<body>
+  <main class="analysis-shell">
+    <header class="analysis-head">
+      <div><a class="government-brand" href="./" aria-label="Prima pagină — Guvernul României"><img src="logo-GR-black-150x150.png" alt="Sigla Guvernului României" width="150" height="150"><p class="kicker">Guvernul României</p></a><h1><a class="site-title-link" href="./">guvernanta.gov.ro</a></h1></div>
+      <nav class="tabs registry-tabs page-navigation" aria-label="Explorează registrul">
+        <a class="tab-link" href="./">Companii</a>
+        <a class="tab-link" href="./?tab=people">Persoane</a>
+        <a class="tab-link active" href="politic.html" aria-current="page">Partid</a>
+        <a class="tab-link" href="top-companii.html">Top companii</a>
+      </nav>
+    </header>
+    <section class="political-overview">
+      <div class="pie-wrap"><div id="politicalPie" class="political-pie" role="img" aria-label="Distribuția apartenenței politice"><div class="pie-center"><strong id="peopleTotal">0</strong><span>persoane</span></div></div></div>
+      <div><h2>Distribuție</h2><div id="pieLegend" class="pie-legend"></div></div>
+    </section>
+    <section class="political-table-section">
+      <div class="table-head"><div><p class="kicker">Persoane identificate</p><h2>Lista persoanelor</h2></div><label class="table-search">Caută<input id="politicalSearch" type="search" placeholder="Nume, partid sau companie…"></label></div>
+      <div class="table-scroll"><table class="political-table"><thead><tr><th><button class="sort-heading active" type="button" data-sort="name">Persoană <span>↑</span></button></th><th><button class="sort-heading" type="button" data-sort="category">Apartenență politică <span>↕</span></button></th><th><button class="sort-heading" type="button" data-sort="positions">Companii <span>↕</span></button></th></tr></thead><tbody id="politicalRows"></tbody></table></div>
+      <p id="politicalEmpty" class="empty-state" hidden>Nicio persoană nu corespunde căutării.</p>
+    </section>
+    <footer class="site-footer">
+      <p>Copyright © Guvernul României 2026</p>
+      <nav aria-label="Informații legale"><a href="https://gov.ro/ro/conditii-de-utilizare">Condiții de utilizare</a><a href="https://gov.ro/ro/conditii-legale">Condiții legale</a></nav>
+    </footer>
+  </main>
+  <script src="politic.js?v=20260923-1" defer></script>
+<script src="cookie-consent.js?v=20260923-2"></script></body>
+</html>

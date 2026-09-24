@@ -1,0 +1,97 @@
+{
+  "https://guvernanta.gov.ro/": {
+    "sha256": "60f63f8ec30ee7d01bad49e975b69b6cb274cb8516005d627054d84b90a09815",
+    "etags": [
+      "W/\"6ab4ed62-1f5d\"",
+      "W/\"6ab4ed6d-1f5d\""
+    ]
+  },
+  "https://guvernanta.gov.ro/app.js": {
+    "sha256": "f9dba895b6a4acac565da8c8b1be2cc334bbada6f719a0cb4d61c30d41f0a636",
+    "etags": [
+      "W/\"6ab4ed62-8b8b\""
+    ]
+  },
+  "https://guvernanta.gov.ro/cookie-consent.js": {
+    "sha256": "e7f086a85ba11b737dc74194cf8e21b34a48d215bb8d88d46899c79c1cd9cb97",
+    "etags": [
+      "W/\"6ab3a1ff-c02\""
+    ]
+  },
+  "https://guvernanta.gov.ro/cv-uri.html": {
+    "sha256": "3705d09d3298960b74a17912d58ee81f9ba95088f60cc831c72ec1a36893251b",
+    "etags": [
+      "W/\"6ab3f295-99d\""
+    ]
+  },
+  "https://guvernanta.gov.ro/data/registry.json": {
+    "sha256": "d2dde3eb779a550bae12e200ee9422f391d2ec6a9c9e5a56c6ad017c5746e131",
+    "etags": [
+      "W/\"6ab54fb3-182605\""
+    ]
+  },
+  "https://guvernanta.gov.ro/mai-multe-ca.html": {
+    "sha256": "2bafdb232b81126fa3f8f21868b9decf420bd499460d9457c5280daf12aedcdd",
+    "etags": [
+      "W/\"6ab3e2e7-9cd\""
+    ]
+  },
+  "https://guvernanta.gov.ro/people-data.js": {
+    "sha256": "8affa410d783b39f0216f65ba5ce3b365e43885709bfd639328b239be099f914",
+    "etags": [
+      "W/\"6ab4ec6c-280a\"",
+      "W/\"6ab4ec79-280a\""
+    ]
+  },
+  "https://guvernanta.gov.ro/politic.html": {
+    "sha256": "a6feee50d19ddeeda65bfe0a1ff5be6a51e3a5ee8867ee090ea0f2492fcb115d",
+    "etags": [
+      "W/\"6ab3f17c-d1f\"",
+      "W/\"6ab3f184-d1f\""
+    ]
+  },
+  "https://guvernanta.gov.ro/politic.js": {
+    "sha256": "78a6343cfbd105c89911388ba5392d1a65d2f4b4407406b84367cb2cb435d2bc",
+    "etags": [
+      "W/\"6ab3a1ff-18e9\""
+    ]
+  },
+  "https://guvernanta.gov.ro/robots.txt": {
+    "sha256": "6c45baba24459ceb4d5c72baf98e28289c27ba43e2cf669545d5cc55f1a31eb6",
+    "etags": [
+      "W/\"6ab3a1ff-34\""
+    ]
+  },
+  "https://guvernanta.gov.ro/styles.css": {
+    "sha256": "445486bb9d522099007e8c188931fb88c6517f64b9c7dc50c6ff8ab0d6a92b1b",
+    "etags": [
+      "W/\"6ab3a1ff-9078\""
+    ]
+  },
+  "https://guvernanta.gov.ro/top-companii.html": {
+    "sha256": "7f3e0c4f901fcaa1ddb1722d360ce776533bf103c32b83a895d4b4d7efb404fb",
+    "etags": [
+      "W/\"6ab3e2e6-e50\"",
+      "W/\"6ab3e307-e50\""
+    ]
+  },
+  "https://guvernanta.gov.ro/top-companii.js": {
+    "sha256": "1ffe581ad9955dd8b2499ae8c62ce0450c6b67e1c9b149cd6344f9288f898c21",
+    "etags": [
+      "W/\"6ab3a1ff-19db\""
+    ]
+  },
+  "https://guvernanta.gov.ro/top_companii.json": {
+    "sha256": "b8c624f4dbc14e0a990ef5a974d9930a31bf7ee0a8e91f2ae60dc894bab7d6f5",
+    "etags": [
+      "W/\"6ab3a1ff-33082\""
+    ]
+  },
+  "https://guvernanta.gov.ro/venituri.html": {
+    "sha256": "83c1d9dd2eb2a68e29f2ade5fc4fa3133721b336d632bafc6d2d63bd1387eb43",
+    "etags": [
+      "W/\"6ab4d5b4-9bf\"",
+      "W/\"6ab4d5ba-9bf\""
+    ]
+  }
+}
