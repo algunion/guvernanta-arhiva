@@ -103,6 +103,15 @@ class Archive:
             os.fsync(fh.fileno())
         return record
 
+    def witnessed(self, rel: str, sha: str) -> bool:
+        """True if some logged Wayback capture of this exact version succeeded."""
+        for rec in self.entries():
+            wayback = rec.get("wayback")
+            same_version = rec.get("path") == rel and rec.get("sha256") == sha
+            if same_version and isinstance(wayback, dict) and cast(Json, wayback).get("ok") is True:
+                return True
+        return False
+
     def verify(self) -> int:
         """Check the chain and that each stored file equals its latest logged version.
 

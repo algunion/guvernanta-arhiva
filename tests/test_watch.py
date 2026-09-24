@@ -1,6 +1,7 @@
 """What the watcher must archive, and what it must never archive, against a fake server."""
 
 import json
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -39,14 +40,15 @@ class Env:
         self.seen.append(request)
         return self.queue.pop(0) if len(self.queue) > 1 else self.queue[0]
 
-    def poll(self) -> RunReport:
+    def poll(self, witness: Callable[[str], Json] | None = None, backfill: bool = False) -> RunReport:
         with httpx.Client(transport=httpx.MockTransport(self.handler)) as client:
             return run(
                 self.archive,
                 client,
                 now=lambda: self.now,
                 sleep=lambda _s: None,
-                witness=lambda url: {"ok": True, "capture": f"wb:{url}"},
+                witness=witness or (lambda url: {"ok": True, "capture": f"wb:{url}"}),
+                backfill_witness=backfill,
                 targets=TARGETS,
             )
 
@@ -194,13 +196,16 @@ def test_spn2_capture_is_recorded_with_its_wayback_url() -> None:
         httpx.Response(200, json={"url": URL, "job_id": "spn2-abc"}),
         httpx.Response(200, json={"status": "pending"}),
         httpx.Response(200, json={"status": "success", "timestamp": "20260925081500", "original_url": URL}),
+        httpx.Response(200, content=registry()),  # the archived bytes, fetched back for comparison
     )
     save = wayback_witness(client, "key", "secret", sleep=lambda _s: None)
     assert save(URL) == {
         "ok": True,
         "job_id": "spn2-abc",
         "capture": f"https://web.archive.org/web/20260925081500/{URL}",
+        "capture_sha256": sha256_hex(registry()),
     }
+    assert str(seen[3].url) == f"https://web.archive.org/web/20260925081500id_/{URL}"
     assert seen[0].headers["authorization"] == "LOW key:secret"
 
 
@@ -226,3 +231,42 @@ def test_slow_witness_is_skipped_with_a_reason_instead_of_timing_out(env: Env) -
     first, second = report.new_versions
     assert first["wayback"] == {"ok": True, "capture": "wb:https://guvernanta.gov.ro/a.json"}
     assert second["wayback"] == {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
+
+
+def test_backfill_witnesses_a_stored_version_exactly_once(env: Env) -> None:
+    env.respond(ok(registry()))
+    env.poll(witness=lambda _url: {"ok": False, "error": "HTTP 401"})
+    env.respond(httpx.Response(304))
+
+    def good(url: str) -> Json:
+        return {"ok": True, "capture": f"wb:{url}", "capture_sha256": sha256_hex(registry())}
+
+    (entry,) = env.poll(witness=good, backfill=True).witnessed
+    assert entry["event"] == "witness" and entry["wayback"] == {
+        "ok": True,
+        "capture": f"wb:{URL}",
+        "capture_sha256": sha256_hex(registry()),
+        "capture_matches": True,
+    }
+    assert env.poll(witness=good, backfill=True).witnessed == []  # already witnessed
+    assert env.archive.verify() == 2
+
+
+def test_failed_backfill_is_reported_but_not_logged(env: Env) -> None:
+    env.respond(ok(registry()))
+    env.poll(witness=lambda _url: {"ok": False, "error": "HTTP 401"})
+    env.respond(httpx.Response(304))
+    report = env.poll(witness=lambda _url: {"ok": False, "error": "busy"}, backfill=True)
+    assert report.witnessed == [] and len(report.unconfirmed) == 1
+    assert env.archive.verify() == 1
+
+
+def test_capture_with_different_bytes_is_flagged(env: Env) -> None:
+    env.respond(ok(registry()))
+    report = env.poll(witness=lambda url: {"ok": True, "capture": "wb", "capture_sha256": "0" * 64})
+    assert report.new_versions[0]["wayback"] == {
+        "ok": True,
+        "capture": "wb",
+        "capture_sha256": "0" * 64,
+        "capture_matches": False,
+    }

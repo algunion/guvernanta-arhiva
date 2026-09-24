@@ -33,9 +33,18 @@ def _watch(args: argparse.Namespace) -> int:
             witness = wayback_witness(wayback, access, secret, sleep=time.sleep)
         else:
             witness = skipped_witness("lipsesc cheile archive.org")
-        report = run(archive, site, now=lambda: datetime.now(UTC), sleep=time.sleep, witness=witness)
+        report = run(
+            archive,
+            site,
+            now=lambda: datetime.now(UTC),
+            sleep=time.sleep,
+            witness=witness,
+            backfill_witness=bool(access and secret) and not args.no_witness,
+        )
     for entry in report.new_versions:
         print(f"NEW {entry['path']} sha256={entry['sha256']} wayback={entry['wayback']}")
+    for entry in report.witnessed:
+        print(f"WITNESS {entry['path']} sha256={entry['sha256']} wayback={entry['wayback']}")
     for note in report.unconfirmed:
         print(f"::warning::{note}")
     for err in report.errors:
@@ -45,7 +54,7 @@ def _watch(args: argparse.Namespace) -> int:
     if args.errors_file is not None:
         args.errors_file.write_text("".join(f"{e}\n" for e in report.errors), encoding="utf-8")
     print(
-        f"checked {report.started_at}: {len(report.new_versions)} new, "
+        f"checked {report.started_at}: {len(report.new_versions)} new, {len(report.witnessed)} witnessed, "
         f"{len(report.unconfirmed)} unconfirmed, {len(report.errors)} errors, "
         f"heartbeat={'written' if report.heartbeat_written else 'not due'}"
     )

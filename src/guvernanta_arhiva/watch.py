@@ -95,31 +95,47 @@ def facts_about(target: Target, body: bytes, content_type: str) -> tuple[str | N
     return "JSON is neither an object nor an array", {}
 
 
+def _witness_line(e: Json) -> str:
+    wayback = cast(Json, e["wayback"])
+    if wayback.get("capture"):
+        matches = wayback.get("capture_matches")
+        verdict = (
+            "conținut identic"
+            if matches is True
+            else "CONȚINUT DIFERIT"
+            if matches is False
+            else "neverificat"
+        )
+        return f"martor Wayback: {wayback['capture']} ({verdict})"
+    if wayback.get("skipped"):
+        return f"fără martor Wayback ({wayback.get('reason', 'omis')})"
+    return f"martor Wayback eșuat ({wayback.get('error', 'necunoscut')})"
+
+
 @dataclass(slots=True)
 class RunReport:
     started_at: str
     new_versions: list[Json] = field(default_factory=list[Json])
+    witnessed: list[Json] = field(default_factory=list[Json])
     unconfirmed: list[str] = field(default_factory=list[str])
     errors: list[str] = field(default_factory=list[str])
     heartbeat_written: bool = False
 
     def commit_message(self) -> str:
-        if not self.new_versions:
+        if not self.new_versions and not self.witnessed:
             return f"Semn de viață: nicio schimbare pe guvernanta.gov.ro (verificat {self.started_at})"
-        paths = ", ".join(str(e["path"]) for e in self.new_versions)
-        lines = [f"Versiune nouă: {paths}", ""]
+        titles: list[str] = []
+        if self.new_versions:
+            titles.append("Versiune nouă: " + ", ".join(str(e["path"]) for e in self.new_versions))
+        if self.witnessed:
+            titles.append("Martor Wayback: " + ", ".join(str(e["path"]) for e in self.witnessed))
+        lines = ["; ".join(titles), ""]
         for e in self.new_versions:
-            wayback = cast(Json, e["wayback"])
-            if wayback.get("capture"):
-                witness = f"martor Wayback: {wayback['capture']}"
-            elif wayback.get("skipped"):
-                witness = f"fără martor Wayback ({wayback.get('reason', 'omis')})"
-            else:
-                witness = f"martor Wayback eșuat ({wayback.get('error', 'necunoscut')})"
             lines.append(
                 f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observat {e['observed_at']}; "
-                f"{witness}"
+                f"{_witness_line(e)}"
             )
+        lines.extend(f"- {e['path']} (sha256 {e['sha256']}): {_witness_line(e)}" for e in self.witnessed)
         return "\n".join(lines)
 
 
@@ -135,12 +151,52 @@ def run(
     now: Callable[[], datetime],
     sleep: Callable[[float], None],
     witness: Witness,
+    backfill_witness: bool = False,
     targets: Sequence[Target] = TARGETS,
 ) -> RunReport:
-    """One polling pass. Stores a version only after a second download confirms it."""
+    """One polling pass. Stores a version only after a second download confirms it.
+
+    With `backfill_witness`, a stored version that the live site still serves but that has no
+    successful Wayback capture yet gets one (successes only are logged, to avoid log spam).
+    """
     report = RunReport(started_at=utc_iso(now()))
     state = archive.read_state()
     witness_spent = timedelta()
+
+    def testify(url: str, sha: str) -> Json:
+        nonlocal witness_spent
+        if witness_spent >= WITNESS_BUDGET:
+            return {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
+        began = now()
+        testimony = witness(url)
+        witness_spent += now() - began
+        if "capture_sha256" in testimony:
+            testimony["capture_matches"] = testimony["capture_sha256"] == sha
+        return testimony
+
+    def backfill(t: Target, sha: str) -> None:
+        if not backfill_witness or archive.witnessed(t.store_path, sha):
+            return
+        testimony = testify(t.url, sha)
+        if testimony.get("ok") is not True:
+            report.unconfirmed.append(f"{t.url}: witness backfill failed: {testimony}")
+            return
+        body = archive.read(t.store_path) or b""
+        entry = archive.append(
+            {
+                "event": "witness",
+                "source": "live",
+                "url": t.url,
+                "path": t.store_path,
+                "sha256": sha,
+                "bytes": len(body),
+                "previous_sha256": sha,
+                "observed_at": utc_iso(now()),
+                "wayback": testimony,
+            }
+        )
+        report.witnessed.append(entry)
+
     for t in targets:
         stored = archive.stored_sha(t.store_path)
         known = state.get(t.url)
@@ -151,6 +207,8 @@ def run(
             report.errors.append(f"{t.url}: {type(exc).__name__}: {exc}")
             continue
         if first.status_code == 304:
+            if stored is not None:
+                backfill(t, stored)
             continue
         if first.status_code != 200:
             report.errors.append(f"{t.url}: HTTP {first.status_code}")
@@ -166,6 +224,7 @@ def run(
             if etag:
                 known_tags.add(etag)
             state[t.url] = UrlState(sha, tuple(sorted(known_tags)))
+            backfill(t, sha)
             continue
         fetched_at = utc_iso(now())
         sleep(CONFIRM_DELAY_S)
@@ -183,12 +242,6 @@ def run(
             facts["schema_changed"] = old_facts.get("schema_version") != facts["schema_version"]
         archive.store(t.store_path, first.content)
         confirmed_at = utc_iso(now())
-        if witness_spent >= WITNESS_BUDGET:
-            testimony: Json = {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
-        else:
-            began = now()
-            testimony = witness(t.url)
-            witness_spent += now() - began
         entry = archive.append(
             {
                 "event": "first_capture" if stored is None else "new_version",
@@ -206,7 +259,7 @@ def run(
                     "confirm_etag": second.headers.get("etag"),
                 },
                 "facts": facts,
-                "wayback": testimony,
+                "wayback": testify(t.url, sha),
             }
         )
         tags = {x for x in (etag, second.headers.get("etag")) if x}
@@ -214,13 +267,15 @@ def run(
         report.new_versions.append(entry)
 
     last = archive.last_heartbeat()
-    if report.new_versions or last is None or now() - last >= HEARTBEAT_EVERY:
+    wrote = bool(report.new_versions or report.witnessed)
+    if wrote or last is None or now() - last >= HEARTBEAT_EVERY:
         archive.write_state(state)
         archive.write_heartbeat(
             now(),
             {
                 "targets": len(targets),
                 "new_versions": len(report.new_versions),
+                "witnessed": len(report.witnessed),
                 "unconfirmed": report.unconfirmed,
                 "errors": report.errors,
             },
@@ -254,7 +309,8 @@ def wayback_witness(
     sleep: Callable[[float], None],
     polls: int = 24,
 ) -> Witness:
-    """Save Page Now 2 (requires archive.org S3 keys): submit, then poll the job. Never raises."""
+    """Save Page Now 2 (requires archive.org S3 keys): submit, poll the job, then download the
+    archived bytes so the capture can be compared with our own copy. Never raises."""
     headers = {"Accept": "application/json", "Authorization": f"LOW {access_key}:{secret}"}
 
     def save(url: str) -> Json:
@@ -269,9 +325,18 @@ def wayback_witness(
                 sleep(5.0)
                 status = _json_object(client.get(f"{SPN_ENDPOINT}/status/{job_id}", headers=headers))
                 if status.get("status") == "success":
-                    original = status.get("original_url") or url
-                    capture = f"https://web.archive.org/web/{status.get('timestamp')}/{original}"
-                    return {"ok": True, "job_id": job_id, "capture": capture}
+                    stamp, original = status.get("timestamp"), status.get("original_url") or url
+                    result: Json = {
+                        "ok": True,
+                        "job_id": job_id,
+                        "capture": f"https://web.archive.org/web/{stamp}/{original}",
+                    }
+                    raw = client.get(
+                        f"https://web.archive.org/web/{stamp}id_/{original}", follow_redirects=True
+                    )
+                    if raw.status_code == 200:
+                        result["capture_sha256"] = sha256_hex(raw.content)
+                    return result
                 if status.get("status") == "error":
                     detail = status.get("message") or status.get("status_ext") or "error"
                     return {"ok": False, "job_id": job_id, "error": str(detail)}
