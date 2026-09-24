@@ -9,7 +9,8 @@
   "https://guvernanta.gov.ro/app.js": {
     "sha256": "f9dba895b6a4acac565da8c8b1be2cc334bbada6f719a0cb4d61c30d41f0a636",
     "etags": [
-      "W/\"6ab4ed62-8b8b\""
+      "W/\"6ab4ed62-8b8b\"",
+      "W/\"6ab4ed6d-8b8b\""
     ]
   },
   "https://guvernanta.gov.ro/cookie-consent.js": {
@@ -28,6 +29,7 @@
   "https://guvernanta.gov.ro/data/registry.json": {
     "sha256": "d2dde3eb779a550bae12e200ee9422f391d2ec6a9c9e5a56c6ad017c5746e131",
     "etags": [
+      "W/\"6ab54faf-182605\"",
       "W/\"6ab54fb3-182605\""
     ]
   },

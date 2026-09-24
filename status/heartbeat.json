@@ -1,14 +1,10 @@
 {
-  "checked_at": "2026-09-24T21:52:50Z",
+  "checked_at": "2026-09-24T22:22:14Z",
   "targets": 15,
   "new_versions": 0,
-  "witnessed": 10,
+  "witnessed": 4,
   "unconfirmed": [
-    "https://guvernanta.gov.ro/top-companii.js: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}",
-    "https://guvernanta.gov.ro/people-data.js: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}",
-    "https://guvernanta.gov.ro/cookie-consent.js: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}",
-    "https://guvernanta.gov.ro/styles.css: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}",
-    "https://guvernanta.gov.ro/robots.txt: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}"
+    "https://guvernanta.gov.ro/cookie-consent.js: witness backfill failed: {'ok': False, 'error': 'This URL has been already captured 1 times today, which is a daily limit we have set for that Resource type. Please try again tomorrow. Please email us at \"info@archive.org\" if you would like to discuss this more.'}"
   ],
   "errors": []
 }
