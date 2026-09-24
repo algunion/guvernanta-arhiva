@@ -28,7 +28,7 @@ def _watch(args: argparse.Namespace) -> int:
     with _client(60.0) as site, _client(60.0) as wayback:
         witness: Witness
         if args.no_witness:
-            witness = skipped_witness("dezactivat la rulare")
+            witness = skipped_witness("copii Wayback dezactivate la rulare")
         elif access and secret:
             witness = wayback_witness(wayback, access, secret, sleep=time.sleep)
         else:

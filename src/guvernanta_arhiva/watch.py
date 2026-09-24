@@ -104,12 +104,12 @@ def _witness_line(e: Json) -> str:
             if matches is True
             else "CONȚINUT DIFERIT"
             if matches is False
-            else "neverificat"
+            else "conținut neverificat"
         )
-        return f"martor Wayback: {wayback['capture']} ({verdict})"
+        return f"copie Wayback: {wayback['capture']} ({verdict})"
     if wayback.get("skipped"):
-        return f"fără martor Wayback ({wayback.get('reason', 'omis')})"
-    return f"martor Wayback eșuat ({wayback.get('error', 'necunoscut')})"
+        return f"fără copie Wayback ({wayback.get('reason', 'omisă')})"
+    return f"copia Wayback a eșuat ({wayback.get('error', 'motiv necunoscut')})"
 
 
 @dataclass(slots=True)
@@ -123,16 +123,16 @@ class RunReport:
 
     def commit_message(self) -> str:
         if not self.new_versions and not self.witnessed:
-            return f"Semn de viață: nicio schimbare pe guvernanta.gov.ro (verificat {self.started_at})"
+            return f"Verificare zilnică: nicio modificare pe guvernanta.gov.ro ({self.started_at})"
         titles: list[str] = []
         if self.new_versions:
             titles.append("Versiune nouă: " + ", ".join(str(e["path"]) for e in self.new_versions))
         if self.witnessed:
-            titles.append("Martor Wayback: " + ", ".join(str(e["path"]) for e in self.witnessed))
+            titles.append("Copie Wayback: " + ", ".join(str(e["path"]) for e in self.witnessed))
         lines = ["; ".join(titles), ""]
         for e in self.new_versions:
             lines.append(
-                f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observat {e['observed_at']}; "
+                f"- {e['path']}: sha256 {e['sha256']} ({e['bytes']} B), observată la {e['observed_at']}; "
                 f"{_witness_line(e)}"
             )
         lines.extend(f"- {e['path']} (sha256 {e['sha256']}): {_witness_line(e)}" for e in self.witnessed)
@@ -166,7 +166,7 @@ def run(
     def testify(url: str, sha: str) -> Json:
         nonlocal witness_spent
         if witness_spent >= WITNESS_BUDGET:
-            return {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
+            return {"skipped": True, "reason": "s-a depășit timpul alocat copiilor Wayback"}
         began = now()
         testimony = witness(url)
         witness_spent += now() - began

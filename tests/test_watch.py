@@ -230,7 +230,7 @@ def test_slow_witness_is_skipped_with_a_reason_instead_of_timing_out(env: Env) -
         )
     first, second = report.new_versions
     assert first["wayback"] == {"ok": True, "capture": "wb:https://guvernanta.gov.ro/a.json"}
-    assert second["wayback"] == {"skipped": True, "reason": "bugetul de timp pentru martor s-a epuizat"}
+    assert second["wayback"] == {"skipped": True, "reason": "s-a depășit timpul alocat copiilor Wayback"}
 
 
 def test_backfill_witnesses_a_stored_version_exactly_once(env: Env) -> None:
