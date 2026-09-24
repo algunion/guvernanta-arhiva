@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths-ignore: ["data/**", "site/**", "log/**", "state/**", "status/**"]
   pull_request: {}
+  workflow_dispatch: {}
 
 permissions:
   contents: read
