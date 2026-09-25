@@ -27,10 +27,10 @@
     ]
   },
   "https://guvernanta.gov.ro/data/registry.json": {
-    "sha256": "2d9b06663cbcd4ac2335b3f3a45b797c8ae50e8a28bd5f9bae8c5f70daaabe96",
+    "sha256": "e6abf14c1a1bcfd7fe3935997b3a3e1cef7f9657e4d7cbb5e2b72cb125fada7c",
     "etags": [
-      "W/\"6ab6330a-182605\"",
-      "W/\"6ab63311-182605\""
+      "W/\"6ab63912-182716\"",
+      "W/\"6ab6391b-182716\""
     ]
   },
   "https://guvernanta.gov.ro/mai-multe-ca.html": {

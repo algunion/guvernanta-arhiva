@@ -41266,10 +41266,16 @@
         },
         "source_note": null
       },
-      "mandate_contract": null,
+	  "mandate_contract": "CUI_Documente_Companii_Stat/36727850/CM/CM_Gabriel_Budescu_Redacted.pdf",     
       "mandate_end_date": null,
       "notes": null,
-      "mandate_contracts": []
+      "mandate_contracts": [
+        {
+          "name": "CM_Gabriel_Budescu_Redacted.pdf",
+          "url": "CUI_Documente_Companii_Stat/36727850/CM/CM_Gabriel_Budescu_Redacted.pdf",
+          "type": "pdf"
+        }
+      ]
     },
     {
       "id": "appt_4e87174d2231a6b7be",
