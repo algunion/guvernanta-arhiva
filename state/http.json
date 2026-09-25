@@ -26,9 +26,10 @@
     ]
   },
   "https://guvernanta.gov.ro/data/registry.json": {
-    "sha256": "e2d8f74f1faa1a1e0e0b86a8e8933f615deec49db5b5a339eab5912dbbd5ff7b",
+    "sha256": "84be561929565f47130a950374fd30117580b3b3d7e58edfc9ede97d816bbb79",
     "etags": [
-      "W/\"6ab66c42-182716\""
+      "W/\"6ab6740c-1821eb\"",
+      "W/\"6ab67410-1821eb\""
     ]
   },
   "https://guvernanta.gov.ro/mai-multe-ca.html": {
@@ -41,7 +42,8 @@
   "https://guvernanta.gov.ro/people-data.js": {
     "sha256": "f95892e9b8fef852d58b65c00269c5da77fd021b1992b782eb0067714c0d3644",
     "etags": [
-      "W/\"6ab660d3-293b\""
+      "W/\"6ab660d3-293b\"",
+      "W/\"6ab66106-293b\""
     ]
   },
   "https://guvernanta.gov.ro/politic.html": {

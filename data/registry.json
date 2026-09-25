@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at": "2026-09-25T11:48:57.422836Z",
+  "generated_at": "2026-09-25T11:49:57.422836Z",
   "locale": "ro-RO",
   "currency": "RON",
   "institutions": [
@@ -40268,48 +40268,6 @@
       "mandate_contracts": []
     },
     {
-      "id": "appt_92cf08357dde0a5dfc",
-      "institution_id": "inst_cui-338819_d2a63b08a3",
-      "person_id": "person_covaliu-elisabeta_d973288c6f",
-      "role": {
-        "label": "Director General",
-        "category": "executive_director"
-      },
-      "cv": {
-        "public_url": null,
-        "local_reference": null,
-        "local_file": "CV_Elisabeta_Covaliu_Redacted.pdf",
-        "local_url": "CUI_Documente_Companii_Stat/338819/CV_Elisabeta_Covaliu_Redacted.pdf",
-        "match": {
-          "method": "cui_folder_filename",
-          "confidence": "high"
-        },
-        "company_folder_matches": [
-          {
-            "name": "CV_Elisabeta_Covaliu_Redacted.pdf",
-            "url": "CUI_Documente_Companii_Stat/338819/CV_Elisabeta_Covaliu_Redacted.pdf",
-            "type": "pdf"
-          }
-        ]
-      },
-      "political_affiliation": "Fără apartenență politică",
-      "compensation": {
-        "gross_ron": 7000.0,
-        "net_ron": null,
-        "net_eur": null,
-        "period": null,
-        "raw_source": {
-          "gross": "7000.0",
-          "net": null
-        },
-        "source_note": null
-      },
-      "mandate_contract": null,
-      "mandate_end_date": null,
-      "notes": null,
-      "mandate_contracts": []
-    },
-    {
       "id": "appt_12ba90045e2a147ece",
       "institution_id": "inst_cui-340312_fb8f986058",
       "person_id": "person_andreea-camelia-mina_3d2013648f",
@@ -46771,13 +46729,13 @@
     }
   ],
   "cv_matching": {
-    "generated_at": "2026-09-25T11:48:57.422836Z",
+    "generated_at": "2026-09-25T11:49:57.422836Z",
     "method": "CUI folder + normalized person-name tokens",
     "automatic_threshold": "all tokens; guarded fuzzy fallback"
   },
-  "published_at": "2026-09-25T11:48:57.422836Z",
+  "published_at": "2026-09-25T11:49:57.422836Z",
   "company_assets": {
-    "generated_at": "2026-09-25T11:48:57.422836Z",
+    "generated_at": "2026-09-25T11:49:57.422836Z",
     "summary": {
       "source_companies": 121,
       "company_folders": 124,
