@@ -2,6 +2,7 @@
   "https://guvernanta.gov.ro/": {
     "sha256": "ac4b5b775db8213ef238f914e01b969dbec103236b03e0d17f5fdc07d7914065",
     "etags": [
+      "W/\"6ab660d3-1f5d\"",
       "W/\"6ab66106-1f5d\""
     ]
   },
@@ -25,16 +26,16 @@
     ]
   },
   "https://guvernanta.gov.ro/data/registry.json": {
-    "sha256": "76100e94f60b7f10c5ef2ba01d459fefe989645a4617fa9cdc3475b52e914021",
+    "sha256": "e2d8f74f1faa1a1e0e0b86a8e8933f615deec49db5b5a339eab5912dbbd5ff7b",
     "etags": [
-      "W/\"6ab664be-182716\"",
-      "W/\"6ab664c2-182716\""
+      "W/\"6ab66c42-182716\""
     ]
   },
   "https://guvernanta.gov.ro/mai-multe-ca.html": {
     "sha256": "89c65fa64bc856ef400ef7d9d3ae131f6c26222c47b3305799318426a1626560",
     "etags": [
-      "W/\"6ab660d3-9cd\""
+      "W/\"6ab660d3-9cd\"",
+      "W/\"6ab66106-9cd\""
     ]
   },
   "https://guvernanta.gov.ro/people-data.js": {
@@ -90,7 +91,8 @@
   "https://guvernanta.gov.ro/venituri.html": {
     "sha256": "2ef17396b61139a611f48ba3a499e66148e0c8d2e5fab019325781906773a7b4",
     "etags": [
-      "W/\"6ab660d3-9bf\""
+      "W/\"6ab660d3-9bf\"",
+      "W/\"6ab66106-9bf\""
     ]
   }
 }
