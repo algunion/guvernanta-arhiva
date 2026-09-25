@@ -13,7 +13,9 @@ Aici publicăm, înainte de evenimentele analizate, metodele și pragurile după
 
 To check it yourself:
 
+The Wayback Machine serves this file gzip-compressed. Use `--compressed` (or pipe through `gunzip`), otherwise you hash the compressed bytes.
+
 ```sh
 git show f3911fdc143ab41c6cef4db36b8abed830b9a797:preinregistrari/2026-09-29-primele-100-de-zile.md | shasum -a 256
-curl -sL "https://web.archive.org/web/20260925050711id_/https://raw.githubusercontent.com/algunion/guvernanta-arhiva/f3911fdc143ab41c6cef4db36b8abed830b9a797/preinregistrari/2026-09-29-primele-100-de-zile.md" | shasum -a 256
+curl -sL --compressed "https://web.archive.org/web/20260925050711id_/https://raw.githubusercontent.com/algunion/guvernanta-arhiva/f3911fdc143ab41c6cef4db36b8abed830b9a797/preinregistrari/2026-09-29-primele-100-de-zile.md" | shasum -a 256
 ```
