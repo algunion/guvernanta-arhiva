@@ -1,10 +1,8 @@
 {
-  "checked_at": "2026-09-24T22:22:14Z",
+  "checked_at": "2026-09-25T00:55:58Z",
   "targets": 15,
   "new_versions": 0,
-  "witnessed": 4,
-  "unconfirmed": [
-    "https://guvernanta.gov.ro/cookie-consent.js: witness backfill failed: {'ok': False, 'error': 'This URL has been already captured 1 times today, which is a daily limit we have set for that Resource type. Please try again tomorrow. Please email us at \"info@archive.org\" if you would like to discuss this more.'}"
-  ],
+  "witnessed": 1,
+  "unconfirmed": [],
   "errors": []
 }
