@@ -6,6 +6,7 @@ state.selectedPersonName="";
 state.peopleSort="income";
 state.peopleSortDirection=-1;
 const $$=(s)=>[...document.querySelectorAll(s)];
+let documentCacheVersion="";
 const fmt=new Intl.NumberFormat("ro-RO");
 const money=new Intl.NumberFormat("ro-RO",{style:"currency",currency:"RON",maximumFractionDigits:0});
 const euro=new Intl.NumberFormat("ro-RO",{style:"currency",currency:"EUR",maximumFractionDigits:0});
@@ -13,7 +14,7 @@ const pdfViewerState={module:null,pdf:null,renderTask:null,pageNumber:1,zoom:1,u
 const clean=(s="")=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 const escapeHtml=(s="")=>String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;",'"':"&quot;"}[c]));
 const personName=(name="")=>String(name).trim().toLocaleLowerCase("ro-RO").replace(/(^|[\s.\-‐‑‒–—'’])(\p{L})/gu,(_match,boundary,letter)=>boundary+letter.toLocaleUpperCase("ro-RO"));
-const assetUrl=(path="")=>/^https?:\/\//i.test(String(path))?String(path):String(path).split("/").map(encodeURIComponent).join("/");
+const assetUrl=(path="")=>{const raw=String(path);if(/^https?:\/\//i.test(raw))return raw;const encoded=raw.split("/").map(encodeURIComponent).join("/");if(!documentCacheVersion||!/^.*\.pdf(?:$|[?#])/i.test(raw))return encoded;const separator=encoded.includes("?")?"&":"?";return`${encoded}${separator}v=${encodeURIComponent(documentCacheVersion)}`};
 const initials=(name="")=>name.replace(/[^\p{L}\p{N} ]/gu," ").split(/\s+/).filter(Boolean).slice(0,3).map(x=>x[0]).join("").toUpperCase();
 const isBoardAppointment=(a)=>{const c=a.role?.category||"";const l=clean(a.role?.label||"");return c==="board_chair"||c==="board_member"||/pre[sșş]edint|administrator|consiliu de administra|consiliul de administra|\bc\.?a\.?\b/.test(l)};
 const sectorFor=(i)=>{const v=clean(`${i.name} ${i.supervising_authority||""}`);if(/energie|nuclear|electro|gaz|hidro|carbune|mineral|petrol|oil/.test(v))return"Energie";if(/transport|cfr|aeroport|tarom|rutier|port|naval|metrou|drum|canal/.test(v))return"Transport";if(/apararii|romarm|mecanica|pulberi|piro|arm/.test(v))return"Apărare";if(/finant|banca|credit|garantare|asigur/.test(v))return"Finanțe";if(/industrie|uzina|fabrica|constructii|metal|cupru|sider/.test(v))return"Industrie";return"Infrastructură"};
@@ -25,6 +26,7 @@ async function init(){
   const response=await fetch("data/registry.json",{cache:"no-cache"});
   if(!response.ok)throw new Error("Registrul nu a putut fi încărcat.");
   state.data=await response.json();
+  documentCacheVersion=state.data.published_at||"";
   state.institutions=state.data.institutions.map(i=>({...i,sector:sectorFor(i)}));
   state.people=new Map(state.data.people.map(p=>[p.id,p]));
   state.appointments=new Map();
