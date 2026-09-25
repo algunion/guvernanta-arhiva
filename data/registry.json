@@ -20528,8 +20528,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20570,8 +20570,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 13350.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 13350.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20612,8 +20612,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20654,8 +20654,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20696,8 +20696,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20738,8 +20738,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20780,8 +20780,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 11642.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 11642.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20822,8 +20822,8 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 38462.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 38462.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
@@ -20864,12 +20864,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 54790.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 38462.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "54790.0",
+          "gross": "38462.0",
           "net": null
         },
         "source_note": null
@@ -20906,12 +20906,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 54790.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 38462.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "54790.0",
+          "gross": "38462.0",
           "net": null
         },
         "source_note": null
@@ -20948,12 +20948,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 54790.0,
-        "net_ron": null,
+        "gross_ron": null,
+        "net_ron": 38462.0,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "54790.0",
+          "gross": "38462.0",
           "net": null
         },
         "source_note": null
@@ -23079,12 +23079,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 30000.0,
+        "gross_ron": 25068.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "30000.0",
+          "gross": "25068.0",
           "net": null
         },
         "source_note": null
@@ -23127,12 +23127,12 @@
       },
       "political_affiliation": "Fără apartenență politică",
       "compensation": {
-        "gross_ron": 28000.0,
+        "gross_ron": 24800.0,
         "net_ron": null,
         "net_eur": null,
         "period": null,
         "raw_source": {
-          "gross": "28000.0",
+          "gross": "24800.0",
           "net": null
         },
         "source_note": null
