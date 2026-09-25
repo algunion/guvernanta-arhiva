@@ -1,12 +1,10 @@
 {
-  "checked_at": "2026-09-25T13:23:26Z",
+  "checked_at": "2026-09-25T13:45:51Z",
   "targets": 15,
   "new_versions": 1,
-  "witnessed": 1,
+  "witnessed": 2,
   "unconfirmed": [
-    "https://guvernanta.gov.ro/venituri.html: witness backfill failed: {'ok': False, 'job_id': 'spn2-9ab573b6134f9e22b4f358ec78c94b4ef01055a5', 'error': \"The target server didn't respond in time for https://guvernanta.gov.ro/favicon.ico. Please try again later. (HTTP status=504)\"}",
-    "https://guvernanta.gov.ro/mai-multe-ca.html: witness backfill failed: {'ok': False, 'job_id': 'spn2-916db91a7a45925829ce0dbe21463b68a923e9a1', 'error': \"The target server didn't respond in time for https://guvernanta.gov.ro/favicon.ico. Please try again later. (HTTP status=504)\"}",
-    "https://guvernanta.gov.ro/people-data.js: witness backfill failed: {'ok': False, 'error': 'You have already reached the limit of active Save Page Now sessions. Please wait for a minute and then try again.'}"
+    "https://guvernanta.gov.ro/mai-multe-ca.html: witness backfill failed: {'ok': False, 'job_id': 'spn2-916db91a7a45925829ce0dbe21463b68a923e9a1', 'error': 'The target server returned a service unavailable error for https://guvernanta.gov.ro/mai-multe-ca.html. (HTTP status=503)'}"
   ],
   "errors": []
 }

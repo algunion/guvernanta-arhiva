@@ -9,7 +9,8 @@
   "https://guvernanta.gov.ro/app.js": {
     "sha256": "f59daf1e5f7443cf1cdb94d764d688eba3043efbc744dbce8589a8d0338c9c75",
     "etags": [
-      "W/\"6ab660d3-8cb3\""
+      "W/\"6ab660d3-8cb3\"",
+      "W/\"6ab66106-8cb3\""
     ]
   },
   "https://guvernanta.gov.ro/cookie-consent.js": {
@@ -26,10 +27,10 @@
     ]
   },
   "https://guvernanta.gov.ro/data/registry.json": {
-    "sha256": "84be561929565f47130a950374fd30117580b3b3d7e58edfc9ede97d816bbb79",
+    "sha256": "8be253d9ff3665d776d1c28537cfec4243da24e16791e706b04fa51b36c4cbb2",
     "etags": [
-      "W/\"6ab6740c-1821eb\"",
-      "W/\"6ab67410-1821eb\""
+      "W/\"6ab67650-1d209c\"",
+      "W/\"6ab67653-1d209c\""
     ]
   },
   "https://guvernanta.gov.ro/mai-multe-ca.html": {
