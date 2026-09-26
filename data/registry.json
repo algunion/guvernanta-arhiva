@@ -1,6 +1,6 @@
 {
     "schema_version": "2.0",
-    "generated_at": "2026-09-25T12:49:57.422836Z",
+    "generated_at": "2026-09-25T13:49:57.422836Z",
     "locale": "ro-RO",
     "currency": "RON",
     "institutions": [
@@ -46729,13 +46729,13 @@
         }
     ],
     "cv_matching": {
-        "generated_at": "2026-09-25T12:49:57.422836Z",
+        "generated_at": "2026-09-25T13:49:57.422836Z",
         "method": "CUI folder + normalized person-name tokens",
         "automatic_threshold": "all tokens; guarded fuzzy fallback"
     },
-    "published_at": "2026-09-25T14:12:31+00:00",
+    "published_at": "2026-09-25T14:13:31+00:00",
     "company_assets": {
-        "generated_at": "2026-09-25T12:49:57.422836Z",
+        "generated_at": "2026-09-25T13:49:57.422836Z",
         "summary": {
             "source_companies": 121,
             "company_folders": 124,
