@@ -15009,12 +15009,12 @@
             },
             "political_affiliation": "Fără apartenență politică",
             "compensation": {
-                "gross_ron": 53788,
+                "gross_ron": 49755,
                 "net_ron": null,
                 "net_eur": null,
                 "period": null,
                 "raw_source": {
-                    "gross": "53788.0",
+                    "gross": "49755",
                     "net": null
                 },
                 "source_note": null
@@ -15051,12 +15051,12 @@
             },
             "political_affiliation": "Fără apartenență politică",
             "compensation": {
-                "gross_ron": 53788,
+                "gross_ron": 49755,
                 "net_ron": null,
                 "net_eur": null,
                 "period": null,
                 "raw_source": {
-                    "gross": "53788.0",
+                    "gross": "49755",
                     "net": null
                 },
                 "source_note": null
@@ -46733,7 +46733,7 @@
         "method": "CUI folder + normalized person-name tokens",
         "automatic_threshold": "all tokens; guarded fuzzy fallback"
     },
-    "published_at": "2026-09-25T14:13:31+00:00",
+    "published_at": "2026-09-28T09:20:48+00:00",
     "company_assets": {
         "generated_at": "2026-09-25T13:49:57.422836Z",
         "summary": {
