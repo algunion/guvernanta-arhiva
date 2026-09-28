@@ -1,16 +1,14 @@
 {
   "https://guvernanta.gov.ro/": {
-    "sha256": "ac4b5b775db8213ef238f914e01b969dbec103236b03e0d17f5fdc07d7914065",
+    "sha256": "c11e24640d364f84afee7f318ce30824b8f418e6731df4e52e4bbbbea736ae0d",
     "etags": [
-      "W/\"6ab660d3-1f5d\"",
-      "W/\"6ab66106-1f5d\""
+      "W/\"6aba72e4-1f5d\""
     ]
   },
   "https://guvernanta.gov.ro/app.js": {
-    "sha256": "f59daf1e5f7443cf1cdb94d764d688eba3043efbc744dbce8589a8d0338c9c75",
+    "sha256": "b902049a161921860c004122154458f32381225859c315a2bce8e796e2ab1561",
     "etags": [
-      "W/\"6ab660d3-8cb3\"",
-      "W/\"6ab66106-8cb3\""
+      "W/\"6aba72e4-8cf1\""
     ]
   },
   "https://guvernanta.gov.ro/cookie-consent.js": {
@@ -27,9 +25,9 @@
     ]
   },
   "https://guvernanta.gov.ro/data/registry.json": {
-    "sha256": "9ec3d2c0b27be96cbe456582df636c42982841ec3577817f1943e15d98db28cc",
+    "sha256": "ea3f6963f8afe4dd16104c13b09cb92c85e3be92a6badfbc6ed1b776e5cd3b14",
     "etags": [
-      "W/\"6aba31c3-1d2098\""
+      "W/\"6aba72c4-1d2094\""
     ]
   },
   "https://guvernanta.gov.ro/mai-multe-ca.html": {

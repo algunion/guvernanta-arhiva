@@ -23084,14 +23084,14 @@
                 "net_eur": null,
                 "period": null,
                 "raw_source": {
-                    "gross": "25068.0",
+                    "gross": "25068",
                     "net": null
                 },
                 "source_note": null
             },
             "mandate_contract": "CUI_Documente_Companii_Stat/13863739/CM/CM_Mariana_Miclaus.pdf",
-            "mandate_end_date": "2027-09-30",
-            "notes": "Mandat până la 2027-09-30",
+            "mandate_end_date": "2027-02-09",
+            "notes": "Mandat până la 2027-02-09",
             "mandate_contracts": [
                 {
                     "name": "CM_Mariana_Miclaus.pdf",
@@ -23132,13 +23132,13 @@
                 "net_eur": null,
                 "period": null,
                 "raw_source": {
-                    "gross": "24800.0",
+                    "gross": "24800",
                     "net": null
                 },
                 "source_note": null
             },
             "mandate_contract": "CUI_Documente_Companii_Stat/13863739/CM/CM_Ioana_Diaconu.pdf",
-            "mandate_end_date": "2027-09-30",
+            "mandate_end_date": "2027-02-09",
             "notes": "Mandat până la 2027-09-30",
             "mandate_contracts": [
                 {
@@ -46733,7 +46733,7 @@
         "method": "CUI folder + normalized person-name tokens",
         "automatic_threshold": "all tokens; guarded fuzzy fallback"
     },
-    "published_at": "2026-09-28T09:20:48+00:00",
+    "published_at": "2026-09-28T13:58:11+00:00",
     "company_assets": {
         "generated_at": "2026-09-25T13:49:57.422836Z",
         "summary": {
