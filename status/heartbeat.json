@@ -1,8 +1,13 @@
 {
-  "checked_at": "2026-11-27T05:16:09Z",
+  "checked_at": "2026-11-28T04:16:56Z",
   "targets": 15,
   "new_versions": 0,
   "witnessed": 0,
   "unconfirmed": [],
-  "errors": []
+  "errors": [
+    "https://guvernanta.gov.ro/top-companii.html: ReadError: [Errno 104] Connection reset by peer",
+    "https://guvernanta.gov.ro/cookie-consent.js: ReadError: [Errno 104] Connection reset by peer",
+    "https://guvernanta.gov.ro/styles.css: ReadError: [Errno 104] Connection reset by peer",
+    "https://guvernanta.gov.ro/robots.txt: ConnectError: [Errno 104] Connection reset by peer"
+  ]
 }
